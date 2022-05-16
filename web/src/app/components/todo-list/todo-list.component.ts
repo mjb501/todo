@@ -16,6 +16,7 @@ export class TodoListComponent extends BaseComponent {
   form: FormGroup;
   faCheck = faCheck;
   submitting: boolean = false;
+  showCompleted: boolean = false;
 
   constructor(
     private todoService: TodoService,
@@ -50,5 +51,10 @@ export class TodoListComponent extends BaseComponent {
 
   complete(item: any): void {
     this.todoService.complete(item.id).subscribe();
+  }
+
+  toggleFilter(): void {
+    this.showCompleted = !this.showCompleted;
+    this.todoService.toggleFilter(this.showCompleted);
   }
 }

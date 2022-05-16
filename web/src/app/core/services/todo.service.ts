@@ -13,6 +13,7 @@ export class TodoService {
   private refreshList$ = new BehaviorSubject<boolean>(true);
 
   list$: Observable<TodoItem[]>;
+  private showCompleted: boolean = false;
 
   constructor(private http: HttpClient) {
 
@@ -22,8 +23,11 @@ export class TodoService {
 
   private list(): Observable<TodoItem[]> {
     return this.refreshList$.pipe(switchMap(
-      _ => this.http.get<TodoItem[]>(TodoService.BasePath + '/list')
-    ))
+      _ => {
+        let queryParams = { "includeCompleted": this.showCompleted };
+        return this.http.get<TodoItem[]>(TodoService.BasePath + '/list', { params: queryParams });
+      })
+    );
   }
 
   create(text: string): Observable<string> {
@@ -40,5 +44,10 @@ export class TodoService {
         this.refreshList$.next(false);
       })
     );
+  }
+
+  toggleFilter(showCompleted: boolean): void {
+    this.showCompleted = showCompleted;
+    this.refreshList$.next(false);
   }
 }

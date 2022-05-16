@@ -14,8 +14,8 @@ public class TodoController : ControllerBase
     }
 
     [HttpGet("todo/list")]
-    public async Task<IActionResult> List() =>
-        Ok(await _mediator.Send(new ListTodoItemsRequest()));
+    public async Task<IActionResult> Get([FromQuery] ListTodoItemsRequest request) =>
+        Ok(await _mediator.Send(request));
     
     [HttpPost("todo/create")]
     public async Task<IActionResult> Get([FromBody] CreateTodoItemRequest request) =>

@@ -33,6 +33,10 @@ describe('TodoListComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should default showCompleted to false', () => {
+    expect(component.showCompleted).toBeFalse();
+  });
+
   it('should default submitting to false', () => {
     expect(component.submitting).toBeFalse();
   });
@@ -47,6 +51,14 @@ describe('TodoListComponent', () => {
     let serviceMock = spyOn(service, 'complete').and.returnValue(new Observable<string>());
     let item: TodoItem = { id: "1", text: "", created: new Date() };
     component.complete(item);
+    expect(serviceMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('should toggleFilter should invert showCompleted', () => {
+    let previous: boolean = component.showCompleted;
+    let serviceMock = spyOn(service, 'toggleFilter');
+    component.toggleFilter();
+    expect(component.showCompleted).not.toBe(previous);
     expect(serviceMock).toHaveBeenCalledTimes(1);
   });
 });

@@ -1,29 +1,33 @@
 <div *ngIf="vm$ | async as vm;else status" class="todo-list">
 
-    <article>
-        <form [formGroup]="form" (submit)="submit()">
-            <input type="text" placeholder="Create new item" formControlName="text">
-            <button type="submit" [disabled]="form.invalid || submitting">Submit</button>    
-        </form>
-        
-    </article>
-    <article *ngFor="let item of vm.items">
-      <div class="control">
-        <fa-icon [icon]="faCheck" *ngIf="item.completed"></fa-icon>
-      </div>
-      <div class="text" [class.completed]="item.completed">
-        {{ item.text }}
-      </div>
-      <div class="completed" *ngIf="item.completed">
-        Completed: {{ item.completed | date:'EEE, dd MMM yyyy' }}
-      </div>
-      <div class="created">
-        Created:   {{ item.created | date:'EEE, dd MMM yyyy' }}
-      </div>
-      <button class="complete" [disabled]="item.completed"
+  <article>
+    <form [formGroup]="form" (submit)="submit()">
+      <input type="text" placeholder="Create new item" formControlName="text">
+      <button type="submit" [disabled]="form.invalid || submitting">Submit</button>
+    </form>
+
+  </article>
+  <article>
+    <input type="checkbox" class="filter" [value]="showCompleted" (change)="toggleFilter()">
+    <label for="filter">Show Completed</label>
+  </article>
+  <article *ngFor="let item of vm.items">
+    <div class="control">
+      <fa-icon [icon]="faCheck" *ngIf="item.completed"></fa-icon>
+    </div>
+    <div class="text" [class.completed]="item.completed">
+      {{ item.text }}
+    </div>
+    <div class="completed" *ngIf="item.completed">
+      Completed: {{ item.completed | date:'EEE, dd MMM yyyy' }}
+    </div>
+    <div class="created">
+      Created:   {{ item.created | date:'EEE, dd MMM yyyy' }}
+    </div>
+    <button class="complete" [disabled]="item.completed"
               (click)="complete(item)">
         Complete
-      </button>
+    </button>
     </article>
 </div>
 

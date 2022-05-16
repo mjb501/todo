@@ -13,6 +13,12 @@ public class ListTodoItemsHandler : IRequestHandler<ListTodoItemsRequest, IEnume
 
     public async Task<IEnumerable<TodoItem>> Handle(ListTodoItemsRequest request, CancellationToken cancellationToken)
     {
-        return await _todoRepository.List();
+        var list = await _todoRepository.List();
+        return list.Where(item => PassesFilter(request.IncludeCompleted, item));
+    }
+
+    private static bool PassesFilter(bool includeCompleted, TodoItem item)
+    {
+        return includeCompleted || (!includeCompleted && item.Completed == null);
     }
 }
