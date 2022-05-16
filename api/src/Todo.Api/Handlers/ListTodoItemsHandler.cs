@@ -14,7 +14,8 @@ public class ListTodoItemsHandler : IRequestHandler<ListTodoItemsRequest, IEnume
     public async Task<IEnumerable<TodoItem>> Handle(ListTodoItemsRequest request, CancellationToken cancellationToken)
     {
         var list = await _todoRepository.List();
-        return list.Where(item => PassesFilter(request.IncludeCompleted, item));
+        return list.Where(item => PassesFilter(request.IncludeCompleted, item))
+                    .OrderByDescending(i => i.Created);
     }
 
     private static bool PassesFilter(bool includeCompleted, TodoItem item)

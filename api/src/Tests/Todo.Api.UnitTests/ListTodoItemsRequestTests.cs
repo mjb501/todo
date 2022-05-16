@@ -26,6 +26,22 @@ namespace Todo.Api.UnitTests
             await ListReturnItems(new ListTodoItemsRequest(), i => i.Completed == null);
         }
 
+        [TestMethod]
+        public async Task Should_ReturnItemsInDescendingOrderOfCreation()
+        {
+            var todoItems = CreateTestItems();
+            var mockRepo = new Mock<ITodoRepository>();
+            mockRepo.Setup(repo => repo.List()).Returns(Task.FromResult(todoItems));
+
+            var sut = new ListTodoItemsHandler(mockRepo.Object);
+            var request = new ListTodoItemsRequest { IncludeCompleted = true };
+            var result = await sut.Handle(request, new CancellationToken());
+
+            var expected = todoItems.OrderByDescending(i => i.Created).ToList();
+
+            CollectionAssert.AreEqual(result.ToList(), expected);
+        }
+
         private async Task ListReturnItems(ListTodoItemsRequest request, Func<TodoItem, bool> filter)
         {
             var todoItems = CreateTestItems();
@@ -35,7 +51,7 @@ namespace Todo.Api.UnitTests
             var sut = new ListTodoItemsHandler(mockRepo.Object);
             var result = await sut.Handle(request, new CancellationToken());
 
-            var expected = todoItems.
+            var expected = todoItems.OrderByDescending(i => i.Created).
                 Where(filter).ToList();
 
             CollectionAssert.AreEqual(result.ToList(), expected);

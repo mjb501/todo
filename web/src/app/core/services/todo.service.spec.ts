@@ -46,4 +46,13 @@ describe('TodoService', () => {
       .withContext('single post')
       .toBe(1);
   });
+
+  it('should post when create called', () => {
+    httpClientSpy.post.and.returnValue(new Observable<string>());
+
+    service.create("");
+    expect(httpClientSpy.post.calls.count())
+      .withContext('single post')
+      .toBe(1);
+  });
 });

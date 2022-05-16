@@ -24,7 +24,8 @@ export class TodoListComponent extends BaseComponent {
     super();
 
     this.form = this.formBuilder.group({
-      text: new FormControl(null)
+      text: new FormControl(null,
+        [Validators.required])
     })
 
     this.vm$ = this.todoService.list$.pipe(
