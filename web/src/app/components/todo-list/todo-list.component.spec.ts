@@ -42,4 +42,11 @@ describe('TodoListComponent', () => {
     component.submit();
     expect(serviceMock).toHaveBeenCalledTimes(1);
   });
+
+  it('should call service when complete called', () => {
+    let serviceMock = spyOn(service, 'complete').and.returnValue(new Observable<string>());
+    let item: TodoItem = { id: "1", text: "", created: new Date() };
+    component.complete(item);
+    expect(serviceMock).toHaveBeenCalledTimes(1);
+  });
 });

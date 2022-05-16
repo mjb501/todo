@@ -8,15 +8,22 @@
         
     </article>
     <article *ngFor="let item of vm.items">
-        <div class="control">
-            <fa-icon [icon]="faCheck" *ngIf="item.completed"></fa-icon>
-        </div>
-        <div class="text" [class.completed]="item.completed">
-            {{ item.text }}
-        </div>
-        <div class="created">
-            {{ item.created | date:'EEE, dd MMM yyyy' }}
-        </div>
+      <div class="control">
+        <fa-icon [icon]="faCheck" *ngIf="item.completed"></fa-icon>
+      </div>
+      <div class="text" [class.completed]="item.completed">
+        {{ item.text }}
+      </div>
+      <div class="completed" *ngIf="item.completed">
+        Completed: {{ item.completed | date:'EEE, dd MMM yyyy' }}
+      </div>
+      <div class="created">
+        Created:   {{ item.created | date:'EEE, dd MMM yyyy' }}
+      </div>
+      <button class="complete" [disabled]="item.completed"
+              (click)="complete(item)">
+        Complete
+      </button>
     </article>
 </div>
 

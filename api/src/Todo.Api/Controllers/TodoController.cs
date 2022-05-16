@@ -20,4 +20,8 @@ public class TodoController : ControllerBase
     [HttpPost("todo/create")]
     public async Task<IActionResult> Get([FromBody] CreateTodoItemRequest request) =>
         Ok(await _mediator.Send(request));
+
+    [HttpPost("todo/complete")]
+    public async Task<IActionResult> Get([FromBody] CompleteTodoItemRequest request) =>
+        Ok(await _mediator.Send(request));
 }

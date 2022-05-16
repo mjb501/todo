@@ -47,4 +47,8 @@ export class TodoListComponent extends BaseComponent {
         this.form.reset();
       });
   }
+
+  complete(item: any): void {
+    this.todoService.complete(item.id).subscribe();
+  }
 }

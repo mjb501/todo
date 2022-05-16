@@ -33,4 +33,12 @@ export class TodoService {
       })
     );
   }
+
+  complete(id: string): Observable<string> {
+    return this.http.post<string>(TodoService.BasePath + '/complete', { id }).pipe(
+      tap(_ => {
+        this.refreshList$.next(false);
+      })
+    );
+  }
 }
