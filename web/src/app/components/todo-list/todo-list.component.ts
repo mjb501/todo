@@ -15,6 +15,7 @@ export class TodoListComponent extends BaseComponent {
   vm$: Observable<any>;
   form: FormGroup;
   faCheck = faCheck;
+  submitting: boolean = false;
 
   constructor(
     private todoService: TodoService,
@@ -39,7 +40,11 @@ export class TodoListComponent extends BaseComponent {
   }
 
   submit() {
+    this.submitting = true;
     this.todoService.create(this.form.get('text')?.value)
-      .subscribe(() => this.form.reset());
+      .subscribe(() => {
+        this.submitting = false;
+        this.form.reset();
+      });
   }
 }
